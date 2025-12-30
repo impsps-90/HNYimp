@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy New Year 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1a0033, #000);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 90%;
+    }
+
+    .lang-switch {
+      margin-bottom: 20px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      border: 1px solid #ffd966;
+      color: #ffd966;
+      padding: 8px 14px;
+      margin: 0 6px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .lang-switch button:hover {
+      background: #ffd966;
+      color: #000;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      animation: glow 2s infinite alternate;
+    }
+
+    .year {
+      font-size: clamp(4rem, 10vw, 7rem);
+      font-weight: bold;
+      background: linear-gradient(45deg, #ffcc00, #ff6699, #66ccff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    h2 {
+      margin-top: 15px;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: #ffd966;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.75;
+      z-index: 2;
+    }
+
+    .credit {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      opacity: 0.85;
+      color: #ffd966;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff6699;
+      }
+      to {
+        text-shadow: 0 0 20px #66ccff, 0 0 40px #ffcc00;
+      }
+    }
+
+    @keyframes shine {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+
+  <div class="lang-switch">
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('hi')">हिंदी</button>
+    <button onclick="setLang('bn')">বাংলা</button>
+  </div>
+
+  <h1 id="title">✨ Happy New Year ✨</h1>
+  <div class="year">2026</div>
+  <h2 id="subtitle">New Dreams • New Energy • New Beginnings</h2>
+  <p id="message">
+    May 2026 bring you health, happiness,<br>
+    peace of mind, and success in everything you do.
+  </p>
+
+</div>
+
+<footer>
+  🌟 Welcoming 2026 with hope & positivity 🌟
+  <div class="credit">
+    — Warm wishes by <strong>Sankar Prasad Sau</strong> —
+  </div>
+</footer>
+
+<script>
+  const wishes = {
+    en: {
+      title: "✨ Happy New Year ✨",
+      subtitle: "New Dreams • New Energy • New Beginnings",
+      message:
+        "May 2026 bring you health, happiness,<br>peace of mind, and success in everything you do."
+    },
+    hi: {
+      title: "✨ नव वर्ष की शुभकामनाएँ ✨",
+      subtitle: "नई उम्मीदें • नई ऊर्जा • नई शुरुआत",
+      message:
+        "साल 2026 आपके जीवन में सुख, स्वास्थ्य,<br>शांति और सफलता लेकर आए।"
+    },
+    bn: {
+      title: "✨ শুভ নববর্ষ ✨",
+      subtitle: "নতুন স্বপ্ন • নতুন শক্তি • নতুন শুরু",
+      message:
+        "২০২৬ সাল আপনার জীবনে আনুক সুখ, স্বাস্থ্য,<br>শান্তি ও সাফল্য।"
+    }
+  };
+
+  function setLang(lang) {
+    document.getElementById("title").innerHTML = wishes[lang].title;
+    document.getElementById("subtitle").innerHTML = wishes[lang].subtitle;
+    document.getElementById("message").innerHTML = wishes[lang].message;
+  }
+
+  const canvas = document.getElementById("fireworks");
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  class Firework {
+    constructor(x, y) {
+      this.particles = [];
+      for (let i = 0; i < 70; i++) {
+        this.particles.push({
+          x, y,
+          angle: Math.random() * Math.PI * 2,
+          speed: Math.random() * 4 + 2,
+          alpha: 1
+        });
+      }
+    }
+    update() {
+      this.particles.forEach(p => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.alpha -= 0.02;
+      });
+    }
+    draw() {
+      this.particles.forEach(p => {
+        ctx.fillStyle = `rgba(255, ${Math.random()*255}, ${Math.random()*255}, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+  }
+
+  let fireworks = [];
+
+  function animate() {
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    fireworks.forEach((fw, i) => {
+      fw.update();
+      fw.draw();
+      if (fw.particles[0].alpha <= 0) fireworks.splice(i, 1);
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  setInterval(() => {
+    fireworks.push(new Firework(
+      Math.random() * canvas.width,
+      Math.random() * canvas.height * 0.5
+    ));
+  }, 900);
+
+  animate();
+</script>
+
+</body>
+</html>
